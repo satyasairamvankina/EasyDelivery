@@ -97,24 +97,40 @@
         <!--Pins-->
         <scene sceneID="hYv-mU-csp">
             <objects>
-                <tableViewController title="Pins" id="A7W-CM-nbq" customClass="PinsTableViewController" sceneMemberID="viewController">
+                <tableViewController title="Pins" id="A7W-CM-nbq" customClass="PinsTableViewController" customModule="ProjectMultiLocations" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="a5Z-lp-z69">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="pinCells" id="IPG-zn-xsg">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="pinCells" textLabel="aab-0a-Ebn" detailTextLabel="4LC-vu-tUJ" style="IBUITableViewCellStyleSubtitle" id="IPG-zn-xsg">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IPG-zn-xsg" id="yfQ-1I-6aE">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aab-0a-Ebn">
+                                            <rect key="frame" x="16" y="5" width="33.5" height="20.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4LC-vu-tUJ">
+                                            <rect key="frame" x="16" y="25.5" width="33" height="14.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="A7W-CM-nbq" id="aNd-dQ-XsD"/>
-                            <outlet property="delegate" destination="A7W-CM-nbq" id="SSw-XS-gbE"/>
+                            <outlet property="delegate" destination="A7W-CM-nbq" id="4ss-dF-3KU"/>
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Pins" image="icons8-marker-41" id="6NK-hz-3uS"/>
@@ -128,6 +144,6 @@
         <image name="icons8-data-matrix-code-24" width="24" height="24"/>
         <image name="icons8-google-maps-24" width="24" height="24"/>
         <image name="icons8-marker-41" width="30" height="30"/>
-        <image name="vector-path-square.png" width="512" height="512"/>
+        <image name="vector-path-square.png" width="200" height="200"/>
     </resources>
 </document>

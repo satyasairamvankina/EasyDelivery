@@ -10,6 +10,9 @@ import Foundation
 import MapKit
 
 class DestinationLocationClass:NSObject, MKAnnotation{
+    
+    static var destinationLocation:DestinationLocationClass = DestinationLocationClass()
+        var a = ["p1","p2","p3","p4","p5"]
     var coordinate: CLLocationCoordinate2D
     
     let  title:String?
@@ -29,6 +32,12 @@ class DestinationLocationClass:NSObject, MKAnnotation{
     
     convenience init(title:String,coordinate: CLLocationCoordinate2D) {
         self.init(title:title,addressVar:"",coordinate: coordinate,descriptionVar: "")
+    }
+    convenience override init() {
+        self.init(title:"",addressVar:"",coordinate: CLLocationCoordinate2D(latitude: 0, longitude: 0),descriptionVar: "")
+    }
+    func address() -> String?{
+        return self.addressVar
     }
     var subtitle: String?{
         return descriptionVar! + addressVar!
