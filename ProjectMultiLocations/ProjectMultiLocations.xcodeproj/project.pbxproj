@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3FB3C482216A8E0B005586E6 /* vector-path-square.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FB3C481216A8E0B005586E6 /* vector-path-square.png */; };
+		7A005464216AA4C300831B54 /* vector-path-square.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A005463216AA4C300831B54 /* vector-path-square.png */; };
 		7A59FAB4215BDF91004272C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A59FAB3215BDF91004272C9 /* AppDelegate.swift */; };
 		7A59FAB6215BDF91004272C9 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A59FAB5215BDF91004272C9 /* MapViewController.swift */; };
 		7A59FAB8215BDF91004272C9 /* QRScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A59FAB7215BDF91004272C9 /* QRScannerViewController.swift */; };
@@ -21,7 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3FB3C481216A8E0B005586E6 /* vector-path-square.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "vector-path-square.png"; path = "../../../../Desktop/vector-path-square.png"; sourceTree = "<group>"; };
+		7A005463216AA4C300831B54 /* vector-path-square.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vector-path-square.png"; sourceTree = "<group>"; };
 		7A59FAB0215BDF91004272C9 /* ProjectMultiLocations.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectMultiLocations.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A59FAB3215BDF91004272C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7A59FAB5215BDF91004272C9 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -77,7 +77,7 @@
 				7A59FAB9215BDF91004272C9 /* Main.storyboard */,
 				7A59FABC215BDF92004272C9 /* Assets.xcassets */,
 				7A59FABE215BDF92004272C9 /* LaunchScreen.storyboard */,
-				3FB3C481216A8E0B005586E6 /* vector-path-square.png */,
+				7A005463216AA4C300831B54 /* vector-path-square.png */,
 				7A59FAC1215BDF92004272C9 /* Info.plist */,
 			);
 			path = ProjectMultiLocations;
@@ -149,7 +149,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3FB3C482216A8E0B005586E6 /* vector-path-square.png in Resources */,
+				7A005464216AA4C300831B54 /* vector-path-square.png in Resources */,
 				7A59FAC0215BDF92004272C9 /* LaunchScreen.storyboard in Resources */,
 				7A59FABD215BDF92004272C9 /* Assets.xcassets in Resources */,
 				7A59FABB215BDF91004272C9 /* Main.storyboard in Resources */,
