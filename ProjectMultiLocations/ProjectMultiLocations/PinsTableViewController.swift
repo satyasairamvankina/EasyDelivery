@@ -32,7 +32,7 @@ class PinsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "pinCells", for: indexPath)
         let model = DestinationLocationClass.destinationLocation.address()
         cell.textLabel?.text = a[indexPath.row]
-        cell.detailTextLabel?.text = "\(model)"
+        cell.detailTextLabel?.text = "\(String(describing: model))"
         return cell
     }
     
