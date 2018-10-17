@@ -10,7 +10,9 @@ import UIKit
 
 class PinsTableViewController: UITableViewController {
 
-    let a = ["p1","p2","p3","p4","p5"]
+    let a = (DestinationLocationClass.annotateArray)
+    
+//        ["p1","p2","p3","p4","p5"]
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,7 +33,7 @@ class PinsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "pinCells", for: indexPath)
         let model = DestinationLocationClass.destinationLocation.address()
-        cell.textLabel?.text = a[indexPath.row]
+        cell.textLabel?.text = a[indexPath.row].title!
         cell.detailTextLabel?.text = "\(String(describing: model))"
         return cell
     }

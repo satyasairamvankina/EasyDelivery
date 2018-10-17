@@ -40,7 +40,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         //hide searchbar
         dismiss(animated: true, completion: nil)
         
-//remove activity indicator
+//remove activity indicator and stop user interaction
         activityIndicator.stopAnimating()
         UIApplication.shared.endIgnoringInteractionEvents()
  //Search address in maps
@@ -49,21 +49,31 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         let searchOutput = MKLocalSearch(request: searchAddress)
         searchOutput.start { (response, Error) in
             if let address = response {
-//                remove all annotations/pins
+//  remove all annotations/pins
                var a =  self.mapView.annotations
                 a.removeAll()
-//                a.removeAll(where: { (a) -> Bool inmhg
-//                    true
-//                })
-                
                 
                 if let latitude = response?.boundingRegion.center.latitude,let longitude = response?.boundingRegion.center.longitude{
                  let givenLocation:CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
                    let  annotate = MKPointAnnotation()
-                    annotate.title = searchBar.text
+                    annotate.title = "Take from user"
+                    annotate.subtitle = searchBar.text
+                    
                     annotate.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
                     self.mapView.addAnnotation(annotate)
-
+                    
+//                    var annotateArray:[MKAnnotation] = []
+//                    annotateArray.append(annotate)
+                    DestinationLocationClass.annotateArray.append(annotate)
+                    print(  DestinationLocationClass.annotateArray)
+                    
+//                    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+//                        //        self.selectedAnnotation = view.annotation as? Islands
+//                        annotate.title = "chnged"
+//                    }
+                    
+//                    mapView(mapView: self.mapView, didSelectAnnotationView: MKAnnotationView.init(annotation: annotate, reuseIdentifier: "empty"))
+                    
                 }
             }
             else{
@@ -71,20 +81,21 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
                 alert.addAction(UIAlertAction(title:  "OK",  style:  .default,  handler:  nil))
                 self.present(alert,  animated:  true,  completion:  nil)
             }
-           
-
         }
         
 //        if let searchOutput.start()
 //        }
     }
 
+    
+
+
     let manager = CLLocationManager()
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations:[CLLocation]) {
 //            let locationRadius: CLLocationDistance = 2000
         let location = locations[0]
-        let span:MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: 0.01,longitudeDelta: 0.01)
+        let span:MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: 0.1,longitudeDelta: 0.1)
 //                centerLocation(location: location)
         let myLocation:CLLocationCoordinate2D = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
 //
@@ -102,7 +113,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
 
     }
         
-        // set region of view
+ // set region of view
             let locationRadius: CLLocationDistance = 2000
         func centerLocation(location:CLLocation){
             let locationRegion = MKCoordinateRegion(center: location.coordinate,latitudinalMeters: locationRadius, longitudinalMeters: locationRadius)
@@ -111,20 +122,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-//        let initialLocation = CLLocation(latitude: 40.345493, longitude: -94.874588)
-//
-//        centerLocation(location: initialLocation)
-//
-//        let destinationVar = DestinationLocationClass(title: "Home", addressVar: "322,N WallNut", coordinate: CLLocationCoordinate2D(latitude: 40.345493, longitude: -94.874588), descriptionVar: "First Location")
-//        let location2 = DestinationLocationClass(title: "Horizons", addressVar: "Walmurt", coordinate: CLLocationCoordinate2D(latitude: 40.330026, longitude: -94.870115), descriptionVar: "Second Location")
-//
-//
-//        var allLocation:[DestinationLocationClass] = []
-//        allLocation += [destinationVar,location2]
-//        mapView.addAnnotations(allLocation)
-        
         
         manager.delegate = self
         manager.desiredAccuracy = kCLLocationAccuracyBest
@@ -132,9 +129,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         manager.startUpdatingLocation()
         
          }
-    
-
-    
 
 
 
