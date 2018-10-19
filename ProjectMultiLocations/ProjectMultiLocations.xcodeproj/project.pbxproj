@@ -15,7 +15,7 @@
 		7A59FABD215BDF92004272C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A59FABC215BDF92004272C9 /* Assets.xcassets */; };
 		7A59FAC0215BDF92004272C9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A59FABE215BDF92004272C9 /* LaunchScreen.storyboard */; };
 		7A98F1982167E0F40083BEB4 /* PinsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A98F1972167E0F40083BEB4 /* PinsTableViewController.swift */; };
-		7AA16B5321750FE700A882A7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A6B70352162A33700D95FF1 /* CoreLocation.framework */; };
+		7A9E339F21779101003631E3 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A6B70352162A33700D95FF1 /* CoreLocation.framework */; };
 		7AD6C7CA215C2F5D00DA1807 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD6C7C9215C2F5D00DA1807 /* ViewController.swift */; };
 		7AD6C7CC215C3AA000DA1807 /* Destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD6C7CB215C3AA000DA1807 /* Destination.swift */; };
 /* End PBXBuildFile section */
@@ -41,7 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7AA16B5321750FE700A882A7 /* CoreLocation.framework in Frameworks */,
+				7A9E339F21779101003631E3 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
