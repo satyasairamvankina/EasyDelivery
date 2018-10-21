@@ -53,31 +53,6 @@
             </objects>
             <point key="canvasLocation" x="1688.8" y="-320.68965517241384"/>
         </scene>
-        <!--Camera-->
-        <scene sceneID="wg7-f3-ORb">
-            <objects>
-                <viewController title="Camera" id="8rJ-Kc-sve" customClass="QRScannerViewController" customModule="ProjectMultiLocations" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="QS5-Rx-YEW">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="vector-path-square.png" translatesAutoresizingMaskIntoConstraints="NO" id="ei7-8G-N3m">
-                                <rect key="frame" x="29" y="187" width="320" height="320"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <viewLayoutGuide key="safeArea" id="O1u-W8-tvY"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="QRcode" image="icons8-data-matrix-code-24" id="cPa-gy-q4n"/>
-                    <connections>
-                        <outlet property="square" destination="ei7-8G-N3m" id="3Pm-Nn-43n"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="837.60000000000002" y="354.87256371814095"/>
-        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
             <objects>
@@ -88,9 +63,9 @@
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
-                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
                         <segue destination="G6N-tI-vVY" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
                         <segue destination="A7W-CM-nbq" kind="relationship" relationship="viewControllers" id="O0o-XV-WvW"/>
+                        <segue destination="XIf-P7-m2j" kind="relationship" relationship="viewControllers" id="RBm-mW-QXJ"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
@@ -161,11 +136,67 @@
             </objects>
             <point key="canvasLocation" x="749.60000000000002" y="-320.68965517241384"/>
         </scene>
+        <!--QR Code-->
+        <scene sceneID="be0-Hc-TVj">
+            <objects>
+                <viewController id="XIf-P7-m2j" customClass="ScanQRViewController" customModule="ProjectMultiLocations" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jPH-qT-qP2">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view alpha="0.80000001192092896" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1R9-UK-vXw">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scan" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DgV-8n-kpN">
+                                        <rect key="frame" x="165.5" y="38" width="44" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="9qZ-JG-fZA"/>
+                                    <constraint firstAttribute="bottom" secondItem="DgV-8n-kpN" secondAttribute="bottom" constant="8" id="R5k-Hh-pbX"/>
+                                    <constraint firstItem="DgV-8n-kpN" firstAttribute="centerX" secondItem="1R9-UK-vXw" secondAttribute="centerX" id="oUL-Yy-3Gt"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.60000002384185791" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="No QR code is detected" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="30" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gz3-bJ-9Br">
+                                <rect key="frame" x="0.0" y="315" width="375" height="40"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="DFe-dH-tyQ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Y2L-54-eqe" firstAttribute="trailing" secondItem="gz3-bJ-9Br" secondAttribute="trailing" id="131-lM-ecq"/>
+                            <constraint firstItem="gz3-bJ-9Br" firstAttribute="leading" secondItem="Y2L-54-eqe" secondAttribute="leading" id="36N-ij-RLD"/>
+                            <constraint firstItem="Y2L-54-eqe" firstAttribute="bottom" secondItem="gz3-bJ-9Br" secondAttribute="bottom" id="JQg-bu-xb8"/>
+                            <constraint firstItem="1R9-UK-vXw" firstAttribute="top" secondItem="jPH-qT-qP2" secondAttribute="top" id="Rf6-JC-hjQ"/>
+                            <constraint firstItem="1R9-UK-vXw" firstAttribute="leading" secondItem="jPH-qT-qP2" secondAttribute="leading" id="Uyv-Tk-uhq"/>
+                            <constraint firstItem="Y2L-54-eqe" firstAttribute="trailing" secondItem="1R9-UK-vXw" secondAttribute="trailing" id="VzE-4j-rvp"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Y2L-54-eqe"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="QR Code" image="icons8-data-matrix-code-24" id="YYV-xZ-AWu"/>
+                    <connections>
+                        <outlet property="messageLabel" destination="gz3-bJ-9Br" id="Ma4-Hn-dD7"/>
+                        <outlet property="topbar" destination="1R9-UK-vXw" id="qpB-6z-N83"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="23t-wr-3M0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1164" y="782"/>
+        </scene>
     </scenes>
     <resources>
         <image name="icons8-data-matrix-code-24" width="24" height="24"/>
         <image name="icons8-google-maps-24" width="24" height="24"/>
         <image name="icons8-marker-41" width="30" height="30"/>
-        <image name="vector-path-square.png" width="200" height="200"/>
     </resources>
 </document>
