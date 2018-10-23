@@ -10,6 +10,10 @@ import UIKit
 import MapKit
 
 class PinsTableViewController: UITableViewController {
+    var i:[MKAnnotation] = []
+    var b:[MKAnnotation] = (DestinationLocationClass.annotateArray)
+    var a:[String] = []
+    var c:[String] = []
     
 //    var i:[MKAnnotation] = []
 //    var b:[MKAnnotation] = (DestinationLocationClass.annotateArray)
@@ -25,7 +29,7 @@ class PinsTableViewController: UITableViewController {
 
     
     
-   let a = ["p1","p2","p3","p4","p5"]
+   
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -45,15 +49,30 @@ class PinsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "pinCells", for: indexPath)
-        let model = DestinationLocationClass.destinationLocation.address()
+        //let model = DestinationLocationClass.destinationLocation.address()
         cell.textLabel?.text = a[indexPath.row]
-        cell.detailTextLabel?.text = "\(String(describing: model))"
+        cell.detailTextLabel?.text = c[indexPath.row]
         return cell
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        tableView.reloadData()
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
     }
-
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        //        tableView.reloadData()
+        var p1 = DestinationLocationClass(title: "Horizons",addressVar: "Apartments",coordinate: CLLocationCoordinate2D(latitude: 40.356219, longitude: -94.881954),descriptionVar: "living zone ")
+        b.append(p1)
+        a.append(b[0].title!!)
+        c.append(b[0].subtitle!!)
+        var p2 = DestinationLocationClass(title: "Walmart",addressVar: "Super market",coordinate: CLLocationCoordinate2D(latitude: 40.356219, longitude: -94.881954),descriptionVar: "shopping ")
+        b.append(p2)
+        a.append(b[1].title!!)
+        c.append(b[1].subtitle!!)
+        var p3 = DestinationLocationClass(title: "Hy-Vee",addressVar: "Shopping",coordinate: CLLocationCoordinate2D(latitude: 40.356219, longitude: -94.881954),descriptionVar: "Groceries ")
+        b.append(p3)
+        a.append(b[2].title!!)
+        c.append(b[2].subtitle!!)
+    }
+    
 }
