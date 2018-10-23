@@ -140,6 +140,8 @@ class ScanQRViewController: UIViewController ,AVCaptureMetadataOutputObjectsDele
             if metadataObj.stringValue != nil {
                 //launchApp(decodedURL: metadataObj.stringValue!)
                 messageLabel.text = metadataObj.stringValue
+                let a = DestinationLocationClass.destinationLocation.getCoordinates()
+                print(a)
             }
         }
     }

@@ -21,6 +21,21 @@ class DestinationLocationClass:NSObject, MKAnnotation{
     
     var coordinate: CLLocationCoordinate2D
     
+    func getCoordinates()->String{
+        let geocoder = CLGeocoder()
+        let address = "/(messageLabel.text!)"
+        geocoder.geocodeAddressString(address, completionHandler: {(placemarks, error) -> Void in
+            if((error) != nil){
+                print("Error", error ?? "")
+            }
+            if let placemark = placemarks?.first {
+                let coordinate:CLLocationCoordinate2D = placemark.location!.coordinate
+                print("Lat: \(coordinate.latitude) -- Long: \(coordinate.longitude)")
+            }
+        })
+        return ("Lat: \(coordinate.latitude) -- Long: \(coordinate.longitude)")
+    }
+    
     let  title:String?
     let addressVar:String?
 //    let latitudeVar:Double?
