@@ -11,12 +11,15 @@ import MapKit
 import CoreLocation
 
 class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDelegate,MKMapViewDelegate {
-//      var currentLocation:CLLocationCoordinate2D
-//    init(currentLocation:CLLocationCoordinate2D) {
-//        self.currentLocation = currentLocation
+    
+//      var selectedDestinationLocation:CLLocationCoordinate2D
+//    init(selectedDestinationLocation:CLLocationCoordinate2D) {
+//        self.selectedDestinationLocation = selectedDestinationLocation
 //    }
     
-
+  let locationManager = CLLocationManager()
+//    var destinationLocation:CLLocationCoordinate2D
+    
     @IBOutlet weak var myMapView: MKMapView!
     
     @IBAction func searchBarBTN(_ sender: Any) {
@@ -160,7 +163,16 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         manager.startUpdatingLocation()
         
         myMapView.delegate = self
-
+        
+        
+        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled(){
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.startUpdatingLocation()
+        }
 
          }
 
@@ -234,22 +246,53 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
     }
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         print("annotation is tapped")
+        
+        let currentLocation = CLLocationCoordinate2D(latitude: 40.352326, longitude: -94.883789)
+        let sourceCoordinates = locationManager.location?.coordinate
+        let givenLocation = CLLocationCoordinate2D(latitude: 40.333970,  longitude: -94.874880)
+//        let destinationLocation = CLLocationCoordinate2D(latitude: <#T##CLLocationDegrees#>, longitude: <#T##CLLocationDegrees#>)
+        
+        
+        let sourcePlaceMark = MKPlacemark(coordinate: sourceCoordinates ?? currentLocation)
+        let destinationPlaceMark = MKPlacemark(coordinate: givenLocation)
+        
+        let sourceItem = MKMapItem(placemark: sourcePlaceMark)
+        let destItem = MKMapItem(placemark: destinationPlaceMark)
+        
+        let directionRequest = MKDirections.Request()
+        directionRequest.source = sourceItem
+        directionRequest.destination = destItem
+        directionRequest.transportType = MKDirectionsTransportType.automobile
+        
+        let directions = MKDirections(request: directionRequest)
+        
+        directions.calculate(completionHandler: {
+            response, error in
+            guard let response = response
+                else{ if let error = error{
+                    print("Something went wrong")
+                    }
+                    return
+            }
+            let route = response.routes[0]
+            self.myMapView.addOverlay(route.polyline, level: .aboveRoads)
+            
+            let rectangle = route.polyline.boundingMapRect
+            self.myMapView.setRegion(MKCoordinateRegion(rectangle), animated: true)
+        })
+        
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let  renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = UIColor.brown
+        renderer.lineWidth = 7.0
+        return renderer
     }
     
     
 
 }
 
-//
-//let regionDistance:CLLocationDistance = 1000;
-//let coordinates = CLLocationCoordinate2DMake(latitude, longitude)
-//let regionSpan = MKCoordinateRegion(center: coordinates, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
-//
-//let options = [MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center), MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)]
-//
-//let placemark = MKPlacemark(coordinate: coordinates)
-//let mapItem = MKMapItem(placemark: placemark)
-//mapItem.name = "My House"
-//mapItem.openInMaps(launchOptions: options)
-//
+
 
