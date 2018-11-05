@@ -11,12 +11,20 @@ import MapKit
 import CoreLocation
 
 class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDelegate,MKMapViewDelegate {
-//      var currentLocation:CLLocationCoordinate2D
-//    init(currentLocation:CLLocationCoordinate2D) {
-//        self.currentLocation = currentLocation
+    
+//      var selectedDestinationLocation:CLLocationCoordinate2D
+//    init(selectedDestinationLocation:CLLocationCoordinate2D) {
+//        self.selectedDestinationLocation = selectedDestinationLocation
 //    }
     
+  let locationManager = CLLocationManager()
+    var destinationLocationVar:CLLocationCoordinate2D = CLLocationCoordinate2DMake(35.7565, 83.9705)
+    var currentLocationVar:CLLocationCoordinate2D = CLLocationCoordinate2DMake(35.7565, 83.9705)
 
+    var annotationName = ["A1","A2","A3","A4","A5","A6","A7","A8","A9","A10","A11","A12","A13",]
+    var i = 0
+    
+    
     @IBOutlet weak var myMapView: MKMapView!
     
     @IBAction func searchBarBTN(_ sender: Any) {
@@ -50,66 +58,30 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
                 //if latitude and longitude are legitamate then place a pin
                 if let latitude = response?.boundingRegion.center.latitude,let longitude = response?.boundingRegion.center.longitude{
                 let givenLocation:CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
-                    
+                    self.destinationLocationVar = givenLocation
                 // Adding annotation
                    let  annotate = MKPointAnnotation()
-                    annotate.title = "Take from user"
+                    annotate.title = self.annotationName[self.i]
+                    self.i += 1
                     annotate.subtitle = searchBar.text
                     annotate.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
                     self.myMapView.addAnnotation(annotate)
 //
 //                //adding elemeents into annotation array
-//                    DestinationLocationClass.annotateArray.append(annotate)
-//                    print(DestinationLocationClass.annotateArray)
+                    DestinationLocationClass.annotateArray.append(annotate)
+                    print(DestinationLocationClass.annotateArray.description)
                     
                   //calling mapview did select func
                     self.mapView(mapView: self.myMapView, didSelectAnnotationView: MKAnnotationView.init(annotation: annotate, reuseIdentifier: "empty"))
-                    
-// working on directions
-//                    let sourcePlaceMark = MKPlacemark(coordinate: self.currentLocation)
-                    let sourcePlaceMark = MKPlacemark(coordinate: CLLocationCoordinate2DMake(latitude, longitude))
-                    let destinationPlaceMark = MKPlacemark(coordinate: givenLocation)
-
-                    let sourceItem = MKMapItem(placemark: sourcePlaceMark)
-                    let destItem = MKMapItem(placemark: destinationPlaceMark)
-
-                    let directionRequest = MKDirections.Request()
-                    directionRequest.source = sourceItem
-                    directionRequest.destination = destItem
-                    directionRequest.transportType = MKDirectionsTransportType.automobile
-                    
-                    let directions = MKDirections(request: directionRequest)
-                    
-                    directions.calculate(completionHandler: {
-                        response, error in
-                        guard let response = response
-                            else{ if let error = error{
-                            print("Something went wrong")
-                        }
-                        return
-                        }
-                        let route = response.routes[0]
-                        self.myMapView.addOverlay(route.polyline, level: .aboveRoads)
-                        
-                        let rectangle = route.polyline.boundingMapRect
-                        self.myMapView.setRegion(MKCoordinateRegion(rectangle), animated: true)
-                    })
-                }
-                func mapView(_ mapView: MKMapView, rendererFor overlay:MKOverlay) -> MKOverlayRenderer{
-                    let renderer = MKPolylineRenderer(overlay: overlay)
-                    renderer.strokeColor = UIColor.blue
-                    renderer.lineWidth = 5.0
-                    
-                    return renderer
-                    
-                
-                }
+  
+            }
             }
             else{
                 let  alert  =  UIAlertController(title:  "Alert",  message:  "Invalid address",  preferredStyle:  .alert)
                 alert.addAction(UIAlertAction(title:  "OK",  style:  .default,  handler:  nil))
                 self.present(alert,  animated:  true,  completion:  nil)
             }
+            
         }
         
     }
@@ -125,6 +97,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         let span:MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: 0.1,longitudeDelta: 0.1)
 //                centerLocation(location: location)
         let myLocation:CLLocationCoordinate2D = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
+        
+        currentLocationVar = myLocation
 //
 //        let region:MKCoordinateRegion = MKCoordinateRegion(center: location.coordinate,latitudinalMeters: locationRadius, longitudinalMeters: locationRadius)
 //         let currentLocation = DestinationLocationClass(title: "Current Location", coordinate: myLocation)
@@ -160,7 +134,16 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         manager.startUpdatingLocation()
         
         myMapView.delegate = self
-
+        
+        
+        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled(){
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.startUpdatingLocation()
+        }
 
          }
 
@@ -210,19 +193,16 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         }
         
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "anno") as? MKMarkerAnnotationView
-//        if annotationView == nil {
-//            // no annotation view, we'll make one ...
-//        } else {
+
             annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "anno")
             annotationView!.canShowCallout = true
             let callBTN = UIButton(type: .detailDisclosure)
 //            callBTN.addTarget(self, action: #selector(clickMe(sender:)), for: UIControl.Event.touchUpInside)
         
-//            let imagePin = UIImage(named: "pin.png")
-//            annotationView?.leftCalloutAccessoryView = UIImageView.init(image: imagePin)
+            let imagePin = UIImage(named: "pin.png")
+            annotationView?.leftCalloutAccessoryView = UIImageView.init(image: imagePin)
         
             annotationView!.rightCalloutAccessoryView = callBTN
-//            annotationView?.leftCalloutAccessoryView = 
             annotationView!.markerTintColor = UIColor.red
             annotationView!.annotation = annotation
 //        }
@@ -234,22 +214,47 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
     }
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         print("annotation is tapped")
+        // working on directions
+        let sourcePlaceMark = MKPlacemark(coordinate: self.currentLocationVar)
+        //                    let sourcePlaceMark = MKPlacemark(coordinate: CLLocationCoordinate2DMake(latitude, longitude))
+        let destinationPlaceMark = MKPlacemark(coordinate: self.destinationLocationVar)
+        
+        let sourceItem = MKMapItem(placemark: sourcePlaceMark)
+        let destItem = MKMapItem(placemark: destinationPlaceMark)
+        
+        let directionRequest = MKDirections.Request()
+        directionRequest.source = sourceItem
+        directionRequest.destination = destItem
+        directionRequest.transportType = MKDirectionsTransportType.automobile
+        
+        let directions = MKDirections(request: directionRequest)
+        
+        directions.calculate(completionHandler: {
+            response, error in
+            guard let response = response
+                else{ if let error = error{
+                    print("Something went wrong")
+                    }
+                    return
+            }
+            let route = response.routes[0]
+            self.myMapView.addOverlay(route.polyline, level: .aboveRoads)
+            
+            let rectangle = route.polyline.boundingMapRect
+            self.myMapView.setRegion(MKCoordinateRegion(rectangle), animated: true)
+        })
     }
-    
-    
-
+    func mapView(_ mapView: MKMapView, rendererFor overlay:MKOverlay) -> MKOverlayRenderer{
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = UIColor.brown
+        renderer.lineWidth = 7.0
+        return renderer
+    }
 }
+    
+    
 
-//
-//let regionDistance:CLLocationDistance = 1000;
-//let coordinates = CLLocationCoordinate2DMake(latitude, longitude)
-//let regionSpan = MKCoordinateRegion(center: coordinates, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
-//
-//let options = [MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center), MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)]
-//
-//let placemark = MKPlacemark(coordinate: coordinates)
-//let mapItem = MKMapItem(placemark: placemark)
-//mapItem.name = "My House"
-//mapItem.openInMaps(launchOptions: options)
-//
+
+
+
 
