@@ -10,32 +10,22 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDelegate,MKMapViewDelegate {
-    
-//      var selectedDestinationLocation:CLLocationCoordinate2D
-//    init(selectedDestinationLocation:CLLocationCoordinate2D) {
-//        self.selectedDestinationLocation = selectedDestinationLocation
-//    }
-    
-  let locationManager = CLLocationManager()
+class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDelegate, MKMapViewDelegate {
+
+    let locationManager = CLLocationManager()
     var destinationLocationVar:CLLocationCoordinate2D = CLLocationCoordinate2DMake(35.7565, 83.9705)
     var currentLocationVar:CLLocationCoordinate2D = CLLocationCoordinate2DMake(35.7565, 83.9705)
-
-    var annotationName = ["A1","A2","A3","A4","A5","A6","A7","A8","A9","A10","A11","A12","A13",]
-    var i = 0
-    
+    var annotationIndex = 1
+    let intialLocationRadius: CLLocationDistance = 2000 //initail view radius of mapview
     
     @IBOutlet weak var myMapView: MKMapView!
     
     @IBAction func searchBarBTN(_ sender: Any) {
-       
         //inserting search bar
         let searchController =  UISearchController(searchResultsController: nil)
         searchController.searchBar.delegate = self
         present(searchController, animated: true, completion: nil)
-
-        
-        }
+    }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
@@ -50,88 +40,69 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         let searchOutput = MKLocalSearch(request: searchAddress)
         
         searchOutput.start { (response, Error) in
-            if let address = response {
-                //  remove all annotations/pins
-                var a =  self.myMapView.annotations
-                a.removeAll()
+            if response != nil {
+//                self.myMapView.removeAnnotations(self.myMapView.annotations)          //  remove all annotations/pins
                 
                 //if latitude and longitude are legitamate then place a pin
                 if let latitude = response?.boundingRegion.center.latitude,let longitude = response?.boundingRegion.center.longitude{
-                let givenLocation:CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
-                    self.destinationLocationVar = givenLocation
-                // Adding annotation
-                   let  annotate = MKPointAnnotation()
-                    annotate.title = self.annotationName[self.i]
-                    self.i += 1
+                    let givenLocation:CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
+                    // Adding annotation
+                    let  annotate = MKPointAnnotation()
+                    annotate.title = "A\(self.annotationIndex)" // annotations will be A1, A2, A3 etc.
+                    self.annotationIndex += 1
                     annotate.subtitle = searchBar.text
                     annotate.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
                     self.myMapView.addAnnotation(annotate)
-//
-//                //adding elemeents into annotation array
+                    
+                   //adding elements into annotation array
                     DestinationLocationClass.annotateArray.append(annotate)
                     print(DestinationLocationClass.annotateArray.description)
                     
-                  //calling mapview did select func
+                    //calling mapview did select func
                     self.mapView(mapView: self.myMapView, didSelectAnnotationView: MKAnnotationView.init(annotation: annotate, reuseIdentifier: "empty"))
-  
-            }
+                }
             }
             else{
-                let  alert  =  UIAlertController(title:  "Alert",  message:  "Invalid address",  preferredStyle:  .alert)
+                let  alert = UIAlertController(title:  "Alert",  message:  "Invalid address",  preferredStyle:  .alert)
                 alert.addAction(UIAlertAction(title:  "OK",  style:  .default,  handler:  nil))
                 self.present(alert,  animated:  true,  completion:  nil)
             }
-            
         }
-        
     }
 
-// annotation view callout
-
-
-    let manager = CLLocationManager()
-    
+    // annotation view callout
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations:[CLLocation]) {
-//            let locationRadius: CLLocationDistance = 2000
+        // let locationRadius: CLLocationDistance = 2000
         let location = locations[0]
-        let span:MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: 0.1,longitudeDelta: 0.1)
-//                centerLocation(location: location)
-        let myLocation:CLLocationCoordinate2D = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
+        let span = MKCoordinateSpan(latitudeDelta: 0.1,longitudeDelta: 0.1)
+        // centerLocation(location: location)
+        let myLocation = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
         
         currentLocationVar = myLocation
-//
-//        let region:MKCoordinateRegion = MKCoordinateRegion(center: location.coordinate,latitudinalMeters: locationRadius, longitudinalMeters: locationRadius)
-//         let currentLocation = DestinationLocationClass(title: "Current Location", coordinate: myLocation)
-
-
+        
         let region:MKCoordinateRegion = MKCoordinateRegion(center: myLocation,span: span)
         myMapView.setRegion(region, animated: true)
-
+        
         self.myMapView.showsUserLocation = true
-        
-//        func currentLocation() -> CLLocationCoordinate2D{
-//            return myLocation
-//        }
-//        currentLocation = myLocation
-
+      
     }
+    
+    // set region of view
+ 
+    func centerLocation(location:CLLocation){
+        let locationRegion = MKCoordinateRegion(center: location.coordinate,latitudinalMeters: intialLocationRadius, longitudinalMeters: intialLocationRadius)
+        myMapView.setRegion(locationRegion, animated: true)
         
- // set region of view
-            let locationRadius: CLLocationDistance = 2000
-        func centerLocation(location:CLLocation){
-            let locationRegion = MKCoordinateRegion(center: location.coordinate,latitudinalMeters: locationRadius, longitudinalMeters: locationRadius)
-            myMapView.setRegion(locationRegion, animated: true)
-            
-            
-        }
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        manager.delegate = self
-        manager.desiredAccuracy = kCLLocationAccuracyBest
-        manager.requestWhenInUseAuthorization()
-        manager.startUpdatingLocation()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
         
         myMapView.delegate = self
         
@@ -144,9 +115,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
         }
-
-         }
-
+        
+    }
+    
     func activityIndicatorFNC(){
         //Ignore user once search button is clicked
         UIApplication.shared.beginIgnoringInteractionEvents()
@@ -168,20 +139,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         UIApplication.shared.endIgnoringInteractionEvents()
         
         
-        }
+    }
     
     //clicking on mapp view
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
-        //        self.selectedAnnotation = view.annotation as?
-//        annotate.title = "chnged"
-        
-        //adding elemeents into annotation array
-//        DestinationLocationClass.annotateArray.append(annotate)
-//        print(DestinationLocationClass.annotateArray)
-
-        //Need to reload tableview data
-        
-        print("New Annotation is marked")
+        self.destinationLocationVar = (view.annotation?.coordinate)!
+        print("New Annotation is marked")      //Need to reload tableview data
     }
     
     //annotaton view make
@@ -193,30 +156,30 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         }
         
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "anno") as? MKMarkerAnnotationView
-
-            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "anno")
-            annotationView!.canShowCallout = true
-            let callBTN = UIButton(type: .detailDisclosure)
-//            callBTN.addTarget(self, action: #selector(clickMe(sender:)), for: UIControl.Event.touchUpInside)
         
-            let imagePin = UIImage(named: "pin.png")
-            annotationView?.leftCalloutAccessoryView = UIImageView.init(image: imagePin)
+        annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "anno")
+        annotationView!.canShowCallout = true
+        let callBTN = UIButton(type: .detailDisclosure)
+        let imagePin = UIImage(named: "pin.png")
         
-            annotationView!.rightCalloutAccessoryView = callBTN
-            annotationView!.markerTintColor = UIColor.red
-            annotationView!.annotation = annotation
-//        }
+        annotationView?.leftCalloutAccessoryView = UIImageView.init(image: imagePin)
+        annotationView!.rightCalloutAccessoryView = callBTN
+        annotationView!.markerTintColor = UIColor.red
+        annotationView!.annotation = annotation
+        
         return annotationView
     }
     @objc
     func clickMe(sender:UIButton){
         self.present(UIViewController(), animated: true, completion: nil) // probably not quite what we want ;-(
     }
+    
+    //tapped on button in callout
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         print("annotation is tapped")
-        // working on directions
+        myMapView.removeOverlays(myMapView.overlays)
+        // Routes on destinations
         let sourcePlaceMark = MKPlacemark(coordinate: self.currentLocationVar)
-        //                    let sourcePlaceMark = MKPlacemark(coordinate: CLLocationCoordinate2DMake(latitude, longitude))
         let destinationPlaceMark = MKPlacemark(coordinate: self.destinationLocationVar)
         
         let sourceItem = MKMapItem(placemark: sourcePlaceMark)
@@ -232,7 +195,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         directions.calculate(completionHandler: {
             response, error in
             guard let response = response
-                else{ if let error = error{
+                else{ if error != nil{
                     print("Something went wrong")
                     }
                     return
@@ -245,14 +208,15 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         })
     }
     func mapView(_ mapView: MKMapView, rendererFor overlay:MKOverlay) -> MKOverlayRenderer{
+//        myMapView.removeOverlay(overlay)
         let renderer = MKPolylineRenderer(overlay: overlay)
-        renderer.strokeColor = UIColor.brown
+        renderer.strokeColor = UIColor.orange
         renderer.lineWidth = 7.0
         return renderer
     }
 }
-    
-    
+
+
 
 
 
