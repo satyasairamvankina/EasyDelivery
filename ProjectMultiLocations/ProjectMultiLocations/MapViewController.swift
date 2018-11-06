@@ -56,8 +56,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
                     
                    //adding elements into annotation array
                     DestinationLocationClass.annotateArray.append(annotate)
-                    print(DestinationLocationClass.annotateArray.description)
-                    
+//                    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+//                    print((DestinationLocationClass.annotateArray[0].coordinate))
+    
                     //calling mapview did select func
                     self.mapView(mapView: self.myMapView, didSelectAnnotationView: MKAnnotationView.init(annotation: annotate, reuseIdentifier: "empty"))
                 }
@@ -116,6 +117,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
             locationManager.startUpdatingLocation()
         }
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        for i in 0 ..< DestinationLocationClass.annotateArray.count{
+            self.myMapView.addAnnotation(DestinationLocationClass.annotateArray[i])
+        }
     }
     
     func activityIndicatorFNC(){
