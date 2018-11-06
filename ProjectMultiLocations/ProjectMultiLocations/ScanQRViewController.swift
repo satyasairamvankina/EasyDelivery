@@ -39,7 +39,7 @@ class ScanQRViewController: UIViewController ,AVCaptureMetadataOutputObjectsDele
         // Get the back-facing camera for capturing videos
         let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInDualCamera], mediaType: AVMediaType.video, position: .back)
         
-        guard let captureDevice = deviceDiscoverySession.devices.first else {
+        guard let captureDevice = AVCaptureDevice.default(for: AVMediaType.video) else {
             print("Failed to get the camera device")
             return
         }
@@ -142,6 +142,52 @@ class ScanQRViewController: UIViewController ,AVCaptureMetadataOutputObjectsDele
                 messageLabel.text = metadataObj.stringValue
                 let a = DestinationLocationClass.destinationLocation.getCoordinates()
                 print(a)
+            }
+        }
+    }
+    
+    private func updatePreviewLayer(layer: AVCaptureConnection, orientation: AVCaptureVideoOrientation) {
+        
+        layer.videoOrientation = orientation
+        
+        videoPreviewLayer?.frame = self.view.bounds
+        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if let connection =  self.videoPreviewLayer?.connection  {
+            
+            let currentDevice: UIDevice = UIDevice.current
+            
+            let orientation: UIDeviceOrientation = currentDevice.orientation
+            
+            let previewLayerConnection : AVCaptureConnection = connection
+            
+            if previewLayerConnection.isVideoOrientationSupported {
+                
+                switch (orientation) {
+                case .portrait: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
+                
+                    break
+                    
+                case .landscapeRight: updatePreviewLayer(layer: previewLayerConnection, orientation: .landscapeLeft)
+                
+                    break
+                    
+                case .landscapeLeft: updatePreviewLayer(layer: previewLayerConnection, orientation: .landscapeRight)
+                
+                    break
+                    
+                case .portraitUpsideDown: updatePreviewLayer(layer: previewLayerConnection, orientation: .portraitUpsideDown)
+                
+                    break
+                    
+                default: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
+                
+                    break
+                }
             }
         }
     }
