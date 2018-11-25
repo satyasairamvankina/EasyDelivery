@@ -11,25 +11,12 @@ import MapKit
 
 class PinsTableViewController: UITableViewController {
     var i:[MKAnnotation] = []
+//    DestinationLocationClass.annotateArray[0].coordinate
     var b:[MKAnnotation] = (DestinationLocationClass.annotateArray)
     var a:[String] = []
     var c:[String] = []
     
-//    var i:[MKAnnotation] = []
-//    var b:[MKAnnotation] = (DestinationLocationClass.annotateArray)
-//    var a:[String] = []
-//        var c:[String] = []
-////    init(i:[MKAnnotation]) {
-////        self.i = i
-//        for i in b {
-//            a.append((i.title!)!)
-//            c.append((i.subtitle!)!)
-//        }
-////    }
 
-    
-    
-   
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -38,41 +25,35 @@ class PinsTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return a.count
+        return DestinationLocationClass.annotateArray.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "pinCells", for: indexPath)
-        //let model = DestinationLocationClass.destinationLocation.address()
-        cell.textLabel?.text = a[indexPath.row]
-        cell.detailTextLabel?.text = c[indexPath.row]
+
+        cell.textLabel?.text = ((DestinationLocationClass.annotateArray[indexPath.row].title)!!)
+        cell.detailTextLabel?.text = ((DestinationLocationClass.annotateArray[indexPath.row].subtitle)!!)
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let  alert  =  UIAlertController(title:  "Alert",  message:  "Do you want to delete this",  preferredStyle:  .alert)
+        alert.addAction(UIAlertAction(title:  "Cancel",  style:  .default,  handler: nil))
+        alert.addAction(UIAlertAction(title:  "Delete",  style:  .default,  handler:   {    action in     DestinationLocationClass.annotateArray.remove(at: indexPath.item )
+            tableView.reloadData()
+            
+        }
+        ))
+        self.present(alert,  animated:  true,  completion:  nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        //        tableView.reloadData()
-        var p1 = DestinationLocationClass(title: "Horizons",addressVar: "Apartments",coordinate: CLLocationCoordinate2D(latitude: 40.356219, longitude: -94.881954),descriptionVar: "living zone ")
-        b.append(p1)
-        a.append(b[0].title!!)
-        c.append(b[0].subtitle!!)
-        var p2 = DestinationLocationClass(title: "Walmart",addressVar: "Super market",coordinate: CLLocationCoordinate2D(latitude: 40.356219, longitude: -94.881954),descriptionVar: "shopping ")
-        b.append(p2)
-        a.append(b[1].title!!)
-        c.append(b[1].subtitle!!)
-        var p3 = DestinationLocationClass(title: "Hy-Vee",addressVar: "Shopping",coordinate: CLLocationCoordinate2D(latitude: 40.356219, longitude: -94.881954),descriptionVar: "Groceries ")
-        b.append(p3)
-        a.append(b[2].title!!)
-        c.append(b[2].subtitle!!)
+        tableView.reloadData()
     }
     
 }

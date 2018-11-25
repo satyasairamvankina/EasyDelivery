@@ -34,7 +34,13 @@ class DestinationLocationClass:NSObject, MKAnnotation{
                 self.annotationIndex += 1
                 annotate.subtitle = address
                 annotate.coordinate = self.initialLocation.coordinate
-                DestinationLocationClass.annotateArray.append(annotate)
+                for i in 0 ..< DestinationLocationClass.annotateArray.count{
+                    if annotate.coordinate.latitude != DestinationLocationClass.annotateArray[i].coordinate.latitude && annotate.coordinate.longitude != DestinationLocationClass.annotateArray[i].coordinate.longitude
+//                    if annotate.title != DestinationLocationClass.annotateArray[i].title
+                    {
+                        DestinationLocationClass.annotateArray.append(annotate)
+                    }
+                }
                 
             }
         })
