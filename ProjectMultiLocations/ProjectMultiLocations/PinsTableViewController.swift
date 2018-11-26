@@ -44,9 +44,11 @@ class PinsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let  alert  =  UIAlertController(title:  "Alert",  message:  "Do you want to delete this",  preferredStyle:  .alert)
         alert.addAction(UIAlertAction(title:  "Cancel",  style:  .default,  handler: nil))
-        alert.addAction(UIAlertAction(title:  "Delete",  style:  .default,  handler:   {    action in     DestinationLocationClass.annotateArray.remove(at: indexPath.item )
+        alert.addAction(UIAlertAction(title:  "Delete",  style:  .default,  handler:
+            {
+            action in     DestinationLocationClass.annotateArray.remove(at: indexPath.item )
             tableView.reloadData()
-            
+
         }
         ))
         self.present(alert,  animated:  true,  completion:  nil)
@@ -55,5 +57,37 @@ class PinsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         tableView.reloadData()
     }
+
+
+//    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+//        return true
+//    }
+//    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCell.EditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+//        if (editingStyle == UITableViewCell.EditingStyle.delete) {
+//            // handle delete (by removing the data from your array and updating the tableview)
+//            DestinationLocationClass.annotateArray.remove(at: indexPath.item )
+//        }
+//    }
     
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .destructive, title: "Delete") { (action, sourceView, completionHandler) in
+ 
+           
+            let  alert  =  UIAlertController(title:  "Alert",  message:  "Do you want to delete this",  preferredStyle:  .alert)
+            alert.addAction(UIAlertAction(title:  "Cancel",  style:  .default,  handler: nil))
+            alert.addAction(UIAlertAction(title:  "Delete",  style:  .default,  handler:
+                {
+                    action in     DestinationLocationClass.annotateArray.remove(at: indexPath.item )
+                    tableView.reloadData()
+                    
+            }
+            ))
+            DestinationLocationClass.annotateArray.remove(at: indexPath.row )
+             completionHandler(true)
+        }
+        
+        let swipeActionConfig = UISwipeActionsConfiguration(actions: [delete])
+        swipeActionConfig.performsFirstActionWithFullSwipe = false
+        return swipeActionConfig
+    }
 }

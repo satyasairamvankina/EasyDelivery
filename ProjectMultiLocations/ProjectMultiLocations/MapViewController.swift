@@ -56,7 +56,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
                     
                    //adding elements into annotation array
                     DestinationLocationClass.annotateArray.append(annotate)
-
+                    
+                    self.myMapView.removeAnnotations(self.myMapView.annotations)
+                    self.myMapView.addAnnotations(DestinationLocationClass.annotateArray)
+                    print("number of elements in array\(DestinationLocationClass.annotateArray.count)")
                     
                     
                     //calling mapview did select func
@@ -76,14 +79,17 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         // let locationRadius: CLLocationDistance = 2000
         let location = locations[0]
         let span = MKCoordinateSpan(latitudeDelta: 0.1,longitudeDelta: 0.1)
-        // centerLocation(location: location)
+        
         let myLocation = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
         
         currentLocationVar = myLocation
         
+        if !myMapView.isUserLocationVisible{
         let region:MKCoordinateRegion = MKCoordinateRegion(center: myLocation,span: span)
         myMapView.setRegion(region, animated: true)
+//        centerLocation(location: location)
         
+        }
         self.myMapView.showsUserLocation = true
       
     }
@@ -94,12 +100,15 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         let locationRegion = MKCoordinateRegion(center: location.coordinate,latitudinalMeters: intialLocationRadius, longitudinalMeters: intialLocationRadius)
         myMapView.setRegion(locationRegion, animated: true)
         
-        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+//        self.myMapView.showsTraffic
+//        self.myMapView.showAnnotations(DestinationLocationClass.annotateArray, animated: true)
+//        self.viewWillAppear(true)
+
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
@@ -116,13 +125,18 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
         }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        for i in 0 ..< DestinationLocationClass.annotateArray.count{
-            self.myMapView.addAnnotation(DestinationLocationClass.annotateArray[i])
-        }
+        
+//        if (myMapView.annotations.count != 0){
+        self.myMapView.removeAnnotations(self.myMapView.annotations)
+
+        self.myMapView.addAnnotations(DestinationLocationClass.annotateArray)
+//        }
+        self.myMapView.reloadInputViews()
+        self.viewDidLoad()
+
     }
     
     func activityIndicatorFNC(){
