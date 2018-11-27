@@ -105,7 +105,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        self.myMapView.showsTraffic
+        print("\(self.myMapView.showsTraffic.description) traffic")
 //        self.myMapView.showAnnotations(DestinationLocationClass.annotateArray, animated: true)
 //        self.viewWillAppear(true)
 
@@ -162,9 +162,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         
     }
     
-    //clicking on mapp view
+    //clicking on map view
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
-        self.destinationLocationVar = (view.annotation?.coordinate)!
+//        self.destinationLocationVar = (view.annotation?.coordinate)!
         print("New Annotation is marked")      //Need to reload tableview data
     }
     
@@ -196,8 +196,15 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
     }
     
     //tapped on button in callout
+
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        self.destinationLocationVar = (view.annotation?.coordinate)!
         print("annotation is tapped")
+      
+        var distance = (MKMapPoint(self.destinationLocationVar)).distance(to: MKMapPoint(self.currentLocationVar))
+        print("distance \(distance*0.000621371) miles")
+                print("distance \(distance/1000) km")
+
         myMapView.removeOverlays(myMapView.overlays)
         // Routes on destinations
         let sourcePlaceMark = MKPlacemark(coordinate: self.currentLocationVar)
@@ -210,6 +217,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         directionRequest.source = sourceItem
         directionRequest.destination = destItem
         directionRequest.transportType = MKDirectionsTransportType.automobile
+        
         
         let directions = MKDirections(request: directionRequest)
         
