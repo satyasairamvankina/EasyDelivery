@@ -22,6 +22,8 @@ class DestinationLocationClass:NSObject, MKAnnotation{
     var  initialLocation = CLLocation(latitude: 21.282778, longitude: -157.829444)
     var coordinate: CLLocationCoordinate2D
     
+    static var distanceVar:Double?
+    
     func convertToCoordinates(address: String){
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(address, completionHandler: {(placemarks: [CLPlacemark]?, error: Error!) -> Void in

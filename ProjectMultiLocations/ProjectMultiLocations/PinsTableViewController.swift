@@ -17,6 +17,19 @@ class PinsTableViewController: UITableViewController {
     var c:[String] = []
     
 
+    @IBAction func deleteAll(_ sender: Any) {
+        let  alert  =  UIAlertController(title:  "Alert",  message:  "Are you sure you want to delete everything",  preferredStyle:  .alert)
+        alert.addAction(UIAlertAction(title:  "Cancel",  style:  .default,  handler: nil))
+        alert.addAction(UIAlertAction(title:  "Delete",  style:  .default,  handler:
+            {
+                action in DestinationLocationClass.annotateArray = []
+                self.tableView.reloadData()
+
+        }
+        ))
+         self.present(alert,  animated:  true,  completion:  nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -37,7 +50,8 @@ class PinsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "pinCells", for: indexPath)
 
         cell.textLabel?.text = ((DestinationLocationClass.annotateArray[indexPath.row].title)!!)
-        cell.detailTextLabel?.text = ((DestinationLocationClass.annotateArray[indexPath.row].subtitle)!!)
+        cell.detailTextLabel?.text = ("\(DestinationLocationClass.annotateArray[indexPath.row].subtitle!!)) \(Int((DestinationLocationClass.distanceVar ?? 0)*100)/100)")
+        
         return cell
     }
     
@@ -59,15 +73,6 @@ class PinsTableViewController: UITableViewController {
     }
 
 
-//    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-//        return true
-//    }
-//    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCell.EditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-//        if (editingStyle == UITableViewCell.EditingStyle.delete) {
-//            // handle delete (by removing the data from your array and updating the tableview)
-//            DestinationLocationClass.annotateArray.remove(at: indexPath.item )
-//        }
-//    }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "Delete") { (action, sourceView, completionHandler) in

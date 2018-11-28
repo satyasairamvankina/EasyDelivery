@@ -17,6 +17,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
     var currentLocationVar:CLLocationCoordinate2D = CLLocationCoordinate2DMake(35.7565, 83.9705)
     var annotationIndex = 1
     let intialLocationRadius: CLLocationDistance = 2000 //initail view radius of mapview
+//    var distanceVar = Double((MKMapPoint(destinationLocationVar)).distance(to: MKMapPoint(currentLocationVar)))
+
+
     
     @IBOutlet weak var myMapView: MKMapView!
     
@@ -50,7 +53,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
                     let  annotate = MKPointAnnotation()
                     annotate.title = "A\(self.annotationIndex)" // annotations will be A1, A2, A3 etc.
                     self.annotationIndex += 1
-                    annotate.subtitle = searchBar.text
+//                    annotate.subtitle = "\(searchBar.text!) \(DestinationLocationClass.distanceVar)"
+                    annotate.subtitle = "\(searchBar.text!)"
                     annotate.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
                     self.myMapView.addAnnotation(annotate)
                     
@@ -105,10 +109,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        print("\(self.myMapView.showsTraffic.description) traffic")
-//        self.myMapView.showAnnotations(DestinationLocationClass.annotateArray, animated: true)
-//        self.viewWillAppear(true)
-
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
@@ -125,17 +125,22 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
         }
+        
+
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
-//        if (myMapView.annotations.count != 0){
-        self.myMapView.removeAnnotations(self.myMapView.annotations)
+    self.myMapView.removeAnnotations(self.myMapView.annotations)
 
         self.myMapView.addAnnotations(DestinationLocationClass.annotateArray)
-//        }
         self.myMapView.reloadInputViews()
         self.viewDidLoad()
+        
+                if DestinationLocationClass.annotateArray.count == 0{
+                    myMapView.removeOverlays(myMapView.overlays)
+                }
 
     }
     
@@ -185,6 +190,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         
         annotationView?.leftCalloutAccessoryView = UIImageView.init(image: imagePin)
         annotationView!.rightCalloutAccessoryView = callBTN
+//        annotationView?.glyphText = "\(distanceVar)"
+//        annotationView?.glyphText = (String(format: "%.4f", distance*0.000621371))
         annotationView!.markerTintColor = UIColor.red
         annotationView!.annotation = annotation
         
@@ -201,9 +208,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         self.destinationLocationVar = (view.annotation?.coordinate)!
         print("annotation is tapped")
       
-        var distance = (MKMapPoint(self.destinationLocationVar)).distance(to: MKMapPoint(self.currentLocationVar))
-        print("distance \(distance*0.000621371) miles")
-                print("distance \(distance/1000) km")
+       var distance = Double((MKMapPoint(self.destinationLocationVar)).distance(to: MKMapPoint(self.currentLocationVar)))
+        
+        DestinationLocationClass.distanceVar = distance*0.000621371
+
+        //        view.annotation?.description = distanceVar
+        print("\(DestinationLocationClass.distanceVar!)")
+        print(String(format: "%.4f", distance*0.000621371))
+        print("distance: \(distance/1000) km")
 
         myMapView.removeOverlays(myMapView.overlays)
         // Routes on destinations
@@ -237,7 +249,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         })
     }
     func mapView(_ mapView: MKMapView, rendererFor overlay:MKOverlay) -> MKOverlayRenderer{
-//        myMapView.removeOverlay(overlay)
+
         let renderer = MKPolylineRenderer(overlay: overlay)
         renderer.strokeColor = UIColor.orange
         renderer.lineWidth = 7.0

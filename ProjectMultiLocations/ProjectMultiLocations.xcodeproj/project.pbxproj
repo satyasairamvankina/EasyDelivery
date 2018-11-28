@@ -10,10 +10,12 @@
 		7A005464216AA4C300831B54 /* vector-path-square.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A005463216AA4C300831B54 /* vector-path-square.png */; };
 		7A59FAB4215BDF91004272C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A59FAB3215BDF91004272C9 /* AppDelegate.swift */; };
 		7A59FAB6215BDF91004272C9 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A59FAB5215BDF91004272C9 /* MapViewController.swift */; };
-		7A59FAB8215BDF91004272C9 /* QRScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A59FAB7215BDF91004272C9 /* QRScannerViewController.swift */; };
 		7A59FABB215BDF91004272C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A59FAB9215BDF91004272C9 /* Main.storyboard */; };
 		7A59FABD215BDF92004272C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A59FABC215BDF92004272C9 /* Assets.xcassets */; };
 		7A59FAC0215BDF92004272C9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A59FABE215BDF92004272C9 /* LaunchScreen.storyboard */; };
+		7A91F00421AE09E6005915D3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A91F00321AE09E6005915D3 /* AVFoundation.framework */; };
+		7A91F00821AE0BBF005915D3 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A91F00721AE0BBF005915D3 /* CoreFoundation.framework */; };
+		7A91F00A21AE0CA3005915D3 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A91F00921AE0CA3005915D3 /* AVKit.framework */; };
 		7A98F1982167E0F40083BEB4 /* PinsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A98F1972167E0F40083BEB4 /* PinsTableViewController.swift */; };
 		7A9E339F21779101003631E3 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A6B70352162A33700D95FF1 /* CoreLocation.framework */; };
 		7AD6C7CA215C2F5D00DA1807 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD6C7C9215C2F5D00DA1807 /* ViewController.swift */; };
@@ -26,12 +28,15 @@
 		7A59FAB0215BDF91004272C9 /* ProjectMultiLocations.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectMultiLocations.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A59FAB3215BDF91004272C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7A59FAB5215BDF91004272C9 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		7A59FAB7215BDF91004272C9 /* QRScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerViewController.swift; sourceTree = "<group>"; };
 		7A59FABA215BDF91004272C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7A59FABC215BDF92004272C9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7A59FABF215BDF92004272C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7A59FAC1215BDF92004272C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7A6B70352162A33700D95FF1 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		7A91F00321AE09E6005915D3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		7A91F00521AE0A78005915D3 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
+		7A91F00721AE0BBF005915D3 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		7A91F00921AE0CA3005915D3 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		7A98F1972167E0F40083BEB4 /* PinsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinsTableViewController.swift; sourceTree = "<group>"; };
 		7AD6C7C9215C2F5D00DA1807 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		7AD6C7CB215C3AA000DA1807 /* Destination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Destination.swift; sourceTree = "<group>"; };
@@ -43,7 +48,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A91F00A21AE0CA3005915D3 /* AVKit.framework in Frameworks */,
+				7A91F00821AE0BBF005915D3 /* CoreFoundation.framework in Frameworks */,
 				7A9E339F21779101003631E3 /* CoreLocation.framework in Frameworks */,
+				7A91F00421AE09E6005915D3 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,7 +82,6 @@
 			children = (
 				7A59FAB3215BDF91004272C9 /* AppDelegate.swift */,
 				7A59FAB5215BDF91004272C9 /* MapViewController.swift */,
-				7A59FAB7215BDF91004272C9 /* QRScannerViewController.swift */,
 				7A98F1972167E0F40083BEB4 /* PinsTableViewController.swift */,
 				7A59FAB9215BDF91004272C9 /* Main.storyboard */,
 				7A59FABC215BDF92004272C9 /* Assets.xcassets */,
@@ -89,6 +96,10 @@
 		7A6B70342162A33700D95FF1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7A91F00921AE0CA3005915D3 /* AVKit.framework */,
+				7A91F00721AE0BBF005915D3 /* CoreFoundation.framework */,
+				7A91F00521AE0A78005915D3 /* LocalAuthentication.framework */,
+				7A91F00321AE09E6005915D3 /* AVFoundation.framework */,
 				7A6B70352162A33700D95FF1 /* CoreLocation.framework */,
 			);
 			name = Frameworks;
@@ -166,7 +177,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A59FAB8215BDF91004272C9 /* QRScannerViewController.swift in Sources */,
 				7A98F1982167E0F40083BEB4 /* PinsTableViewController.swift in Sources */,
 				B392B058217D3A6700233313 /* ScanQRViewController.swift in Sources */,
 				7A59FAB4215BDF91004272C9 /* AppDelegate.swift in Sources */,
