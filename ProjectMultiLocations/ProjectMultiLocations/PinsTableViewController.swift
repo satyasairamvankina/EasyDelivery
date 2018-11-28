@@ -50,7 +50,7 @@ class PinsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "pinCells", for: indexPath)
 
         cell.textLabel?.text = ((DestinationLocationClass.annotateArray[indexPath.row].title)!!)
-        cell.detailTextLabel?.text = ("\(DestinationLocationClass.annotateArray[indexPath.row].subtitle!!)) \(Int((DestinationLocationClass.distanceVar ?? 0)*100)/100)")
+        cell.detailTextLabel?.text = ("\(DestinationLocationClass.annotateArray[indexPath.row].subtitle!!)")
         
         return cell
     }

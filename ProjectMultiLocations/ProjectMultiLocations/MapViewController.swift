@@ -17,7 +17,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
     var currentLocationVar:CLLocationCoordinate2D = CLLocationCoordinate2DMake(35.7565, 83.9705)
     var annotationIndex = 1
     let intialLocationRadius: CLLocationDistance = 2000 //initail view radius of mapview
-//    var distanceVar = Double((MKMapPoint(destinationLocationVar)).distance(to: MKMapPoint(currentLocationVar)))
+//  var distanceVar = Double((MKMapPoint(destinationLocationVar)).distance(to: MKMapPoint(currentLocationVar)))
 
 
     
@@ -46,17 +46,24 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
             if response != nil {
 //                self.myMapView.removeAnnotations(self.myMapView.annotations)          //  remove all annotations/pins
                 
-                //if latitude and longitude are legitamate then place a pin
+                // if latitude and longitude are legitamate then place a pin
                 if let latitude = response?.boundingRegion.center.latitude,let longitude = response?.boundingRegion.center.longitude{
                     let givenLocation:CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
-                    // Adding annotation
+                // Adding annotation
                     let  annotate = MKPointAnnotation()
                     annotate.title = "A\(self.annotationIndex)" // annotations will be A1, A2, A3 etc.
+
                     self.annotationIndex += 1
 //                    annotate.subtitle = "\(searchBar.text!) \(DestinationLocationClass.distanceVar)"
-                    annotate.subtitle = "\(searchBar.text!)"
+                  
                     annotate.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
                     self.myMapView.addAnnotation(annotate)
+                    print("distance \(Double((MKMapPoint(self.currentLocationVar)).distance(to: MKMapPoint((annotate.coordinate)))))")
+                    print(self.currentLocationVar)
+                    print(annotate.coordinate)
+                    var distanceSourceToDst = Double((MKMapPoint(self.currentLocationVar)).distance(to: MKMapPoint((annotate.coordinate))))
+                    
+                      annotate.subtitle = "\(searchBar.text!) \(String(format: "%0.3f",distanceSourceToDst*0.000621371) ) miles"
                     
                    //adding elements into annotation array
                     DestinationLocationClass.annotateArray.append(annotate)
@@ -137,11 +144,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         self.myMapView.addAnnotations(DestinationLocationClass.annotateArray)
         self.myMapView.reloadInputViews()
         self.viewDidLoad()
-        
                 if DestinationLocationClass.annotateArray.count == 0{
                     myMapView.removeOverlays(myMapView.overlays)
                 }
-
     }
     
     func activityIndicatorFNC(){
@@ -163,8 +168,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         //remove activity indicator and stop user interaction
         activityIndicator.stopAnimating()
         UIApplication.shared.endIgnoringInteractionEvents()
-        
-        
+    
     }
     
     //clicking on map view
@@ -195,8 +199,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         annotationView!.markerTintColor = UIColor.red
         annotationView!.annotation = annotation
         
+        
+       
         return annotationView
-    }
+        }
     @objc
     func clickMe(sender:UIButton){
         self.present(UIViewController(), animated: true, completion: nil) // probably not quite what we want ;-(
@@ -212,7 +218,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         
         DestinationLocationClass.distanceVar = distance*0.000621371
 
-        //        view.annotation?.description = distanceVar
+//      view.annotation?.subtitle = DestinationLocationClass.distanceVar
         print("\(DestinationLocationClass.distanceVar!)")
         print(String(format: "%.4f", distance*0.000621371))
         print("distance: \(distance/1000) km")
