@@ -32,9 +32,26 @@ class ScanQRViewController: UIViewController ,AVCaptureMetadataOutputObjectsDele
                                       AVMetadataObject.ObjectType.dataMatrix,
                                       AVMetadataObject.ObjectType.interleaved2of5,
                                       AVMetadataObject.ObjectType.qr]
+    @objc func pinned(){
+        print("pinned")
+        let  alert  =  UIAlertController(title:  "Success",  message:  "New location successfully pinned.",  preferredStyle:  .alert)
+        alert.addAction(UIAlertAction(title:  "Ok",  style:  .default,  handler: nil))
+
+        self.present(alert,  animated:  true,  completion:  nil)
+    }
+    
+    @objc func notPinned(){
+        print("not pinned")
+        let  alert  =  UIAlertController(title:  "Duplicate",  message:  "Scanned location is available in pins.",  preferredStyle:  .alert)
+        alert.addAction(UIAlertAction(title:  "Ok",  style:  .default,  handler: nil))
+        
+        self.present(alert,  animated:  true,  completion:  nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self,  selector:  #selector(pinned),                                                                                          name:  .Pinned,  object:  nil);
+        NotificationCenter.default.addObserver(self,  selector:  #selector(notPinned),                                                                                          name:  .NotPinned,  object:  nil);
         
         // Get the back-facing camera for capturing videos
         let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInDualCamera], mediaType: AVMediaType.video, position: .back)

@@ -36,7 +36,6 @@ class PinsTableViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -71,26 +70,19 @@ class PinsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         tableView.reloadData()
     }
-
-
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "Delete") { (action, sourceView, completionHandler) in
- 
-           
             let  alert  =  UIAlertController(title:  "Alert",  message:  "Do you want to delete this",  preferredStyle:  .alert)
             alert.addAction(UIAlertAction(title:  "Cancel",  style:  .default,  handler: nil))
             alert.addAction(UIAlertAction(title:  "Delete",  style:  .default,  handler:
                 {
-                    action in     DestinationLocationClass.annotateArray.remove(at: indexPath.item )
+                    action in DestinationLocationClass.annotateArray.remove(at: indexPath.item )
                     tableView.reloadData()
-                    
-            }
-            ))
+            }))
             DestinationLocationClass.annotateArray.remove(at: indexPath.row )
              completionHandler(true)
         }
-        
         let swipeActionConfig = UISwipeActionsConfiguration(actions: [delete])
         swipeActionConfig.performsFirstActionWithFullSwipe = false
         return swipeActionConfig
