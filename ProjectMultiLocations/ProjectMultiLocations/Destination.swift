@@ -46,6 +46,7 @@ class DestinationLocationClass:NSObject, MKAnnotation{
                     print("Read obj: \(annotate.coordinate)")
                     if (annotate.coordinate.latitude == DestinationLocationClass.annotateArray[i].coordinate.latitude) && (annotate.coordinate.longitude == DestinationLocationClass.annotateArray[i].coordinate.longitude) {
                             qwer = false;
+                        ti.updateValue(DestinationLocationClass.annotateArray[i].title as! String, forKey: "Pin")
                         //ti = ["Pin" , DestinationLocationClass.annotateArray[i].title! ]
                         }
                 }
@@ -56,7 +57,7 @@ class DestinationLocationClass:NSObject, MKAnnotation{
                         NotificationCenter.default.post(name:  .Pinned,  object:  nil)}
                 } else {
                     DispatchQueue.main.async(){
-                        NotificationCenter.default.post(name:  .NotPinned,  object:  nil)}
+                        NotificationCenter.default.post(name:  .NotPinned,  object:  nil, userInfo: ti)}
                 }
                 print("Total pins after appending: \(DestinationLocationClass.annotateArray.count)")
                 

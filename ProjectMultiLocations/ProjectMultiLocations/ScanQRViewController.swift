@@ -36,13 +36,20 @@ class ScanQRViewController: UIViewController ,AVCaptureMetadataOutputObjectsDele
         print("pinned")
         let  alert  =  UIAlertController(title:  "Success",  message:  "New location successfully pinned.",  preferredStyle:  .alert)
         alert.addAction(UIAlertAction(title:  "Ok",  style:  .default,  handler: nil))
-
+        
         self.present(alert,  animated:  true,  completion:  nil)
     }
     
-    @objc func notPinned(){
+    @objc func notPinned(_ notification: NSNotification){
         print("not pinned")
-        let  alert  =  UIAlertController(title:  "Duplicate",  message:  "Scanned location is available in pins.",  preferredStyle:  .alert)
+        var s = ""
+        if let dict = notification.userInfo as NSDictionary? {
+            if let id = dict["Pin"] as? String{
+                s = id as String
+                s=" Pin is \(s)."
+            }
+        }
+        let  alert  =  UIAlertController(title:  "Duplicate",  message:  "Scanned location is available in pins.\(s)",  preferredStyle:  .alert)
         alert.addAction(UIAlertAction(title:  "Ok",  style:  .default,  handler: nil))
         
         self.present(alert,  animated:  true,  completion:  nil)
@@ -51,8 +58,7 @@ class ScanQRViewController: UIViewController ,AVCaptureMetadataOutputObjectsDele
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self,  selector:  #selector(pinned),                                                                                          name:  .Pinned,  object:  nil);
-        NotificationCenter.default.addObserver(self,  selector:  #selector(notPinned),                                                                                          name:  .NotPinned,  object:  nil);
-        
+        NotificationCenter.default.addObserver(self,  selector:  #selector(notPinned(_ :)),                                                                                          name:  .NotPinned,  object:  nil);
         // Get the back-facing camera for capturing videos
         let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInDualCamera], mediaType: AVMediaType.video, position: .back)
         
