@@ -13,13 +13,11 @@ import CoreLocation
 class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDelegate, MKMapViewDelegate {
 
     let locationManager = CLLocationManager()
-    var destinationLocationVar:CLLocationCoordinate2D = CLLocationCoordinate2DMake(35.7565, 83.9705)
-    var currentLocationVar:CLLocationCoordinate2D = CLLocationCoordinate2DMake(35.7565, 83.9705)
+    var destinationLocationVar:CLLocationCoordinate2D = CLLocationCoordinate2DMake(35.7565, 83.9705) //giving default values to destination location
+    var currentLocationVar:CLLocationCoordinate2D = CLLocationCoordinate2DMake(35.7565, 83.9705) //giving default values to current location
     var annotationIndex = 1
     let intialLocationRadius: CLLocationDistance = 2000 //initail view radius of mapview
-//  var distanceVar = Double((MKMapPoint(destinationLocationVar)).distance(to: MKMapPoint(currentLocationVar)))
-
-
+    var distanceSourceToDst = 0.0
     
     @IBOutlet weak var myMapView: MKMapView!
     
@@ -43,35 +41,29 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         let searchOutput = MKLocalSearch(request: searchAddress)
         
         searchOutput.start { (response, Error) in
+            
             if response != nil {
-//                self.myMapView.removeAnnotations(self.myMapView.annotations)          //  remove all annotations/pins
-                
                 // if latitude and longitude are legitamate then place a pin
+                
                 if let latitude = response?.boundingRegion.center.latitude,let longitude = response?.boundingRegion.center.longitude{
                     let givenLocation:CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
-                // Adding annotation
+                // Creating Annotation
                     let  annotate = MKPointAnnotation()
                     annotate.title = "A\(self.annotationIndex)" // annotations will be A1, A2, A3 etc.
 
                     self.annotationIndex += 1
-//                    annotate.subtitle = "\(searchBar.text!) \(DestinationLocationClass.distanceVar)"
                   
                     annotate.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-                    self.myMapView.addAnnotation(annotate)
-                    print("distance \(Double((MKMapPoint(self.currentLocationVar)).distance(to: MKMapPoint((annotate.coordinate)))))")
-                    print(self.currentLocationVar)
-                    print(annotate.coordinate)
-                    var distanceSourceToDst = Double((MKMapPoint(self.currentLocationVar)).distance(to: MKMapPoint((annotate.coordinate))))
+                    self.myMapView.addAnnotation(annotate) //add mapview the annotation
+                    self.distanceSourceToDst = Double((MKMapPoint(self.currentLocationVar)).distance(to: MKMapPoint((annotate.coordinate))))
                     
-                      annotate.subtitle = "\(searchBar.text!) \(String(format: "%0.3f",distanceSourceToDst*0.000621371) ) miles"
-                    
-                   //adding elements into annotation array
+                    // calculaing distance and converting into miles
+                    annotate.subtitle = "\(searchBar.text!) \(String(format: "%0.3f",self.distanceSourceToDst*0.000621371) ) miles"
+                    //adding elements into annotation array
                     DestinationLocationClass.annotateArray.append(annotate)
                     
                     self.myMapView.removeAnnotations(self.myMapView.annotations)
                     self.myMapView.addAnnotations(DestinationLocationClass.annotateArray)
-                    print("number of elements in array\(DestinationLocationClass.annotateArray.count)")
-                    
                     
                     //calling mapview did select func
                     self.mapView(mapView: self.myMapView, didSelectAnnotationView: MKAnnotationView.init(annotation: annotate, reuseIdentifier: "empty"))
@@ -85,21 +77,21 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         }
     }
 
-    // annotation view callout
+    // Annotation view callout
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations:[CLLocation]) {
         // let locationRadius: CLLocationDistance = 2000
         let location = locations[0]
         let span = MKCoordinateSpan(latitudeDelta: 0.1,longitudeDelta: 0.1)
-        
         let myLocation = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
         
         currentLocationVar = myLocation
+        // Setting the zoom that current location always visible in the mapview
         
         if !myMapView.isUserLocationVisible{
         let region:MKCoordinateRegion = MKCoordinateRegion(center: myLocation,span: span)
         myMapView.setRegion(region, animated: true)
-//        centerLocation(location: location)
-        
+            
         }
         self.myMapView.showsUserLocation = true
       
@@ -110,19 +102,18 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
     func centerLocation(location:CLLocation){
         let locationRegion = MKCoordinateRegion(center: location.coordinate,latitudinalMeters: intialLocationRadius, longitudinalMeters: intialLocationRadius)
         myMapView.setRegion(locationRegion, animated: true)
-        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        // Location manager to get the user current location
         locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest //obtaining the best accuracy
+        locationManager.requestWhenInUseAuthorization() // request the location from user only when app is being used
+        locationManager.startUpdatingLocation() // Auto update users current location
         
         myMapView.delegate = self
-        
         
         locationManager.requestAlwaysAuthorization()
         locationManager.requestWhenInUseAuthorization()
@@ -132,21 +123,19 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
         }
-        
-
 
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
-    self.myMapView.removeAnnotations(self.myMapView.annotations)
-
+        // Remove all the annotations and only add existing pins in the array
+        self.myMapView.removeAnnotations(self.myMapView.annotations)
         self.myMapView.addAnnotations(DestinationLocationClass.annotateArray)
         self.myMapView.reloadInputViews()
         self.viewDidLoad()
-                if DestinationLocationClass.annotateArray.count == 0{
-                    myMapView.removeOverlays(myMapView.overlays)
-                }
+        if DestinationLocationClass.annotateArray.count == 0{
+            myMapView.removeOverlays(myMapView.overlays)
+        }
     }
     
     func activityIndicatorFNC(){
@@ -172,9 +161,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
     }
     
     //clicking on map view
-    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
-//        self.destinationLocationVar = (view.annotation?.coordinate)!
-        print("New Annotation is marked")      //Need to reload tableview data
+    private func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+        print("New Annotation is marked")
     }
     
     //annotaton view make
@@ -186,7 +174,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         }
         
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "anno") as? MKMarkerAnnotationView
-        
         annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "anno")
         annotationView!.canShowCallout = true
         let callBTN = UIButton(type: .detailDisclosure)
@@ -194,8 +181,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         
         annotationView?.leftCalloutAccessoryView = UIImageView.init(image: imagePin)
         annotationView!.rightCalloutAccessoryView = callBTN
-//        annotationView?.glyphText = "\(distanceVar)"
-//        annotationView?.glyphText = (String(format: "%.4f", distance*0.000621371))
+//        annotationView?.glyphText = String(format: "%0.1f",self.distanceSourceToDst*0.000621371)
         annotationView!.markerTintColor = UIColor.red
         annotationView!.annotation = annotation
         
@@ -214,16 +200,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         self.destinationLocationVar = (view.annotation?.coordinate)!
         print("annotation is tapped")
       
-       var distance = Double((MKMapPoint(self.destinationLocationVar)).distance(to: MKMapPoint(self.currentLocationVar)))
+        // calculate the distance betwen current location and destination
+        let distance = Double((MKMapPoint(self.destinationLocationVar)).distance(to: MKMapPoint(self.currentLocationVar)))
         
         DestinationLocationClass.distanceVar = distance*0.000621371
-
-//      view.annotation?.subtitle = DestinationLocationClass.distanceVar
-        print("\(DestinationLocationClass.distanceVar!)")
-        print(String(format: "%.4f", distance*0.000621371))
-        print("distance: \(distance/1000) km")
-
         myMapView.removeOverlays(myMapView.overlays)
+        
         // Routes on destinations
         let sourcePlaceMark = MKPlacemark(coordinate: self.currentLocationVar)
         let destinationPlaceMark = MKPlacemark(coordinate: self.destinationLocationVar)
@@ -231,6 +213,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         let sourceItem = MKMapItem(placemark: sourcePlaceMark)
         let destItem = MKMapItem(placemark: destinationPlaceMark)
         
+        //setting the global variables source and destination
         let directionRequest = MKDirections.Request()
         directionRequest.source = sourceItem
         directionRequest.destination = destItem
@@ -239,6 +222,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
         
         let directions = MKDirections(request: directionRequest)
         
+        //if directions are available then show routes else display error
         directions.calculate(completionHandler: {
             response, error in
             guard let response = response
@@ -248,12 +232,15 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, UISearchBa
                     return
             }
             let route = response.routes[0]
-            self.myMapView.addOverlay(route.polyline, level: .aboveRoads)
+            self.myMapView.addOverlay(route.polyline, level: .aboveRoads) // add overlays about mapview
             
+            //setting the driving view
             let rectangle = route.polyline.boundingMapRect
             self.myMapView.setRegion(MKCoordinateRegion(rectangle), animated: true)
         })
     }
+    
+    // adding the overlays and setting the color
     func mapView(_ mapView: MKMapView, rendererFor overlay:MKOverlay) -> MKOverlayRenderer{
 
         let renderer = MKPolylineRenderer(overlay: overlay)

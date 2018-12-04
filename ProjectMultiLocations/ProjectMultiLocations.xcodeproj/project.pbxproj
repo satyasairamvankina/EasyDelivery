@@ -15,7 +15,6 @@
 		7A59FAC0215BDF92004272C9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A59FABE215BDF92004272C9 /* LaunchScreen.storyboard */; };
 		7A91F00421AE09E6005915D3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A91F00321AE09E6005915D3 /* AVFoundation.framework */; };
 		7A91F00821AE0BBF005915D3 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A91F00721AE0BBF005915D3 /* CoreFoundation.framework */; };
-		7A91F00A21AE0CA3005915D3 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A91F00921AE0CA3005915D3 /* AVKit.framework */; };
 		7A98F1982167E0F40083BEB4 /* PinsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A98F1972167E0F40083BEB4 /* PinsTableViewController.swift */; };
 		7A9E339F21779101003631E3 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A6B70352162A33700D95FF1 /* CoreLocation.framework */; };
 		7AD6C7CA215C2F5D00DA1807 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD6C7C9215C2F5D00DA1807 /* ViewController.swift */; };
@@ -48,7 +47,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A91F00A21AE0CA3005915D3 /* AVKit.framework in Frameworks */,
 				7A91F00821AE0BBF005915D3 /* CoreFoundation.framework in Frameworks */,
 				7A9E339F21779101003631E3 /* CoreLocation.framework in Frameworks */,
 				7A91F00421AE09E6005915D3 /* AVFoundation.framework in Frameworks */,
@@ -329,14 +327,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 57GS4PPTAG;
+				DEVELOPMENT_TEAM = 4U9LTG8F3X;
 				INFOPLIST_FILE = ProjectMultiLocations/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.saivanki;
+				PRODUCT_BUNDLE_IDENTIFIER = com.saivankina;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -348,14 +346,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 57GS4PPTAG;
+				DEVELOPMENT_TEAM = 4U9LTG8F3X;
 				INFOPLIST_FILE = ProjectMultiLocations/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.saivanki;
+				PRODUCT_BUNDLE_IDENTIFIER = com.saivankina;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";

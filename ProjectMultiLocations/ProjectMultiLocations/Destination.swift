@@ -26,6 +26,7 @@ class DestinationLocationClass:NSObject, MKAnnotation{
     
     static var distanceVar:Double?
     
+//    convert output from Qrcode to  latitude and longitude
     func convertToCoordinates(address: String){
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(address, completionHandler: {(placemarks: [CLPlacemark]?, error: Error!) -> Void in
@@ -34,23 +35,23 @@ class DestinationLocationClass:NSObject, MKAnnotation{
                 self.initialLocation = (placemark.location ?? nil)!
                 self.qrOutput.append(self.initialLocation.coordinate)
                 let  annotate = MKPointAnnotation()
+                //Setting annotations for Qr output
                 annotate.title = "Q\(self.annotationIndex)" // annotations will be Q1, Q2, Q3 etc.
                 annotate.subtitle = address
                 annotate.coordinate = self.initialLocation.coordinate
                 //verify for duplicate and add if not already added
-                var qwer = true;
+                var duplicate = true;
                 var ti:[String : String] = ["Pin" : ""] ;
                 
                 for i in 0 ..< DestinationLocationClass.annotateArray.count {
                     print("Dest array: \(DestinationLocationClass.annotateArray[i].coordinate)")
                     print("Read obj: \(annotate.coordinate)")
                     if (annotate.coordinate.latitude == DestinationLocationClass.annotateArray[i].coordinate.latitude) && (annotate.coordinate.longitude == DestinationLocationClass.annotateArray[i].coordinate.longitude) {
-                            qwer = false;
+                            duplicate = false;
                         ti.updateValue(DestinationLocationClass.annotateArray[i].title as! String, forKey: "Pin")
-                        //ti = ["Pin" , DestinationLocationClass.annotateArray[i].title! ]
                         }
                 }
-                if qwer {
+                if duplicate {
                     DestinationLocationClass.annotateArray.append(annotate)
                     self.annotationIndex += 1
                     DispatchQueue.main.async(){
@@ -61,30 +62,8 @@ class DestinationLocationClass:NSObject, MKAnnotation{
                 }
                 print("Total pins after appending: \(DestinationLocationClass.annotateArray.count)")
                 
-                //for i in 0 ..< DestinationLocationClass.annotateArray.count{
-                    //                    if annotate.coordinate.latitude != DestinationLocationClass.annotateArray[i].coordinate.latitude && annotate.coordinate.longitude != DestinationLocationClass.annotateArray[i].coordinate.longitude
-                    ////                    if annotate.title != DestinationLocationClass.annotateArray[i].title
-                    //                    {
-                    
-//                    }
-//                }
-                
             }
         })
-        //Testing code not required
-        /*var temp:[MKAnnotation] = []
-        for i in 0 ..< DestinationLocationClass.annotateArray.count {
-            var qwer = true;
-            for j in 0 ..< temp.count {
-                if (temp[j].coordinate.latitude == DestinationLocationClass.annotateArray[i].coordinate.latitude) && (temp[j].coordinate.longitude == DestinationLocationClass.annotateArray[i].coordinate.longitude) {
-                    qwer = false;
-                }
-            }
-            if qwer {
-                temp.append(DestinationLocationClass.annotateArray[i])
-            }
-        }
-        DestinationLocationClass.annotateArray = temp;*/
         print("Total pins: \(DestinationLocationClass.annotateArray.count)")
     }
     
