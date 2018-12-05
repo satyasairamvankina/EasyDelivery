@@ -4,6 +4,10 @@
 //
 //  Created by Thannir,Vyshnavi Srilaxmi on 10/21/18.
 //  Copyright © 2018 Vankina,Satya Sai Ram. All rights reserved.
+//  Authors : Simon Ng
+//  Date 12/19/17
+//  Title:IOS Building a Barcode and QR Code Reader
+//  Reference link : https://www.appcoda.com/barcode-reader-swift/
 //
 
 import UIKit
